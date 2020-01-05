@@ -1,0 +1,9 @@
+bin
+MKL*
+*.MKL.*
+.vs
+.DS_Store
+._*
+thumbs.db
+obj
+
