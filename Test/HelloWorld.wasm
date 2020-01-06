@@ -1,0 +1,5 @@
+; Hello World
+
+CHUNK Main
+	call ConWrite,"Hello World\n"
+	return
