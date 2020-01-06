@@ -45,6 +45,9 @@
     <Compile Include="..\..\..\..\TrickyUnits\Dirry.cs">
       <Link>External Classes\Units\Dirry.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\TrickyUnits\FlagParse.cs">
+      <Link>External Classes\Units\FlagParse.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\TrickyUnits\Maps.cs">
       <Link>External Classes\Units\Maps.cs</Link>
     </Compile>
@@ -57,9 +60,14 @@
     <Compile Include="..\..\..\..\TrickyUnits\qstream.cs">
       <Link>External Classes\Units\qstream.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\TrickyUnits\QuickConsoleColors.cs">
+      <Link>External Classes\Units\QuickConsoleColors.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\TrickyUnits\TrickyDbg.cs">
       <Link>External Classes\Units\TrickyDbg.cs</Link>
     </Compile>
+    <Compile Include="Compile.cs" />
+    <Compile Include="Source.cs" />
     <Compile Include="WASM_Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

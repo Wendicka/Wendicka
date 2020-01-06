@@ -1,3 +1,28 @@
+// Lic:
+// Wendicka
+// Main Class
+// 
+// 
+// 
+// (c) Jeroen P. Broks, 
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Please note that some references to data like pictures or audio, do not automatically
+// fall under this licenses. Mostly this is noted in the respective files.
+// 
+// Version: 20.01.06
+// EndLic
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +34,7 @@ namespace WASM {
 
         static bool Silence = false;
         static int Warnings = 0;
+        static int Errors = 0;
         public static void WARN(string w) {
             Console.Beep();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -18,14 +44,24 @@ namespace WASM {
             Warnings++;
         }
 
+        public static void Error(string w) {
+            Console.Beep();
+            Console.Beep();
+            Console.Beep();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("ERROR! ");
+            Console.ResetColor();
+            Console.WriteLine(w);
+            Errors++;
+        }
+
         public static void CRASH(string w) {
             Console.Beep();
             Console.Beep();
-            Console.Beep();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("FATAL ERROR! ");
-            Console.ResetColor();
-            Console.WriteLine(w);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("FATAL ");
+            Error(w);
+            TrickyDebug.AttachWait();
             Environment.Exit(10);
         }
 
@@ -42,7 +78,23 @@ namespace WASM {
         }
 
         static void Main(string[] args) {
-            Console.WriteLine($"Warnings {Warnings}");
+            Source.Hello();
+            Compile.Hello();
+            Dirry.InitAltDrives();
+            MKL.Version("Wendicka Project - WASM_Main.cs","20.01.06");
+            MKL.Lic    ("Wendicka Project - WASM_Main.cs","GNU General Public License 3");
+            Console.WriteLine($"Wendicka Assembler {MKL.Newest} - (c) {MKL.CYear(2020)} Jeroen P. Broks\n");
+            if (args.Length == 0) {
+                Console.WriteLine("Usage: WASM [options] <File>");
+                TrickyDebug.AttachWait();
+                return;
+            }
+            var parse = new FlagParse(args);
+            parse.CrBool("s", false);
+            parse.Parse();
+            Silence = parse.GetBool("s");
+            foreach (string f in parse.Args) Compile.Go(Dirry.AD(f).Replace("\\","/"));
+            Console.WriteLine($"\tErrors: {Errors}; Warnings: {Warnings}");
             TrickyDebug.AttachWait();
         }
     }
