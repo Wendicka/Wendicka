@@ -43,6 +43,14 @@ namespace WASM {
         static internal void Go(string srcfile) {
             VP($"Assembling: {srcfile}");
             var src = new Source(srcfile);
+            var bo = QuickStream.WriteFile($"{qstr.StripExt(srcfile)}.WBIN");
+            try {
+
+            } catch (Exception e){
+                WASM_Main.Error(e);
+            } finally {
+                bo.Close();
+            }
         }
     }
 }
