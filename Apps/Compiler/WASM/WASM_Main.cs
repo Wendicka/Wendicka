@@ -54,6 +54,13 @@ namespace WASM {
             Console.WriteLine(w);
             Errors++;
         }
+        public static void Error(Exception w) {
+#if DEBUG
+            Error($".NET ERROR: {w.Message}\n\n{w.StackTrace}");
+#else
+            Error($".NET ERROR: {w.Message}");
+#endif
+        }
 
         public static void CRASH(string w) {
             Console.Beep();
