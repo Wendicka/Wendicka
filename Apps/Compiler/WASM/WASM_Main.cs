@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.01.06
+// Version: 20.02.29
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -56,9 +56,9 @@ namespace WASM {
         }
         public static void Error(Exception w) {
 #if DEBUG
-            Error($".NET ERROR: {w.Message}\n\n{w.StackTrace}");
+            Error($"{w.Message}\n\n{w.StackTrace}");
 #else
-            Error($".NET ERROR: {w.Message}");
+            Error($"{w.Message}");
 #endif
         }
 
@@ -84,11 +84,16 @@ namespace WASM {
             if (!Silence) Console.WriteLine(m);
         }
 
+        public static void VT(string m) {
+            if (!Silence) Console.Write(m);
+        }
+
         static void Main(string[] args) {
             Source.Hello();
             Compile.Hello();
             Dirry.InitAltDrives();
-            MKL.Version("Wendicka Project - WASM_Main.cs","20.01.06");
+            Instruction.Init();
+            MKL.Version("Wendicka Project - WASM_Main.cs","20.02.29");
             MKL.Lic    ("Wendicka Project - WASM_Main.cs","GNU General Public License 3");
             Console.WriteLine($"Wendicka Assembler {MKL.Newest} - (c) {MKL.CYear(2020)} Jeroen P. Broks\n");
             if (args.Length == 0) {

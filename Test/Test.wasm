@@ -1,4 +1,5 @@
 ; Test file
 
+
 INCLUDE HelloWorld.wasm
 

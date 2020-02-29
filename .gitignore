@@ -6,4 +6,6 @@ MKL*
 ._*
 thumbs.db
 obj
+Test/C
+*.WBIN
 

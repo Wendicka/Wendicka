@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.01.06
+// Version: 20.02.29
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -33,8 +33,8 @@ namespace WASM {
     class Source {
 
         static internal void Hello() {
-            MKL.Lic("Wendicka Project - Source.cs", "GNU General Public License 3");
-            MKL.Version("Wendicka Project - Source.cs", "20.01.06");
+            MKL.Lic    ("Wendicka Project - Source.cs","GNU General Public License 3");
+            MKL.Version("Wendicka Project - Source.cs","20.02.29");
         }
 
         static List<string> IncPath = new List<string>();
@@ -45,6 +45,21 @@ namespace WASM {
             internal int Line_Number;
 
             override public string ToString() => Code.ToString();
+            internal string Instruction { get {
+                    var c = Code.ToString();
+                    var p = c.IndexOf(' ');
+                    if (p == -1) return c;
+                    return c.Substring(0, p).ToUpper();
+                }
+            }
+            internal string ParamString {
+                get {
+                    var c = Code.ToString();
+                    var p = c.IndexOf(' ');
+                    if (p == -1) return "";
+                    return c.Substring(p+1);
+                }
+            }
             internal Line(string s, string f, int i) {
                 Code = new StringBuilder(s.Trim());
                 From_File = f;
@@ -53,7 +68,10 @@ namespace WASM {
 
 
         }
-        Line[] Lines;
+        internal int CountLines => Lines.Length;
+        internal Line this[int ln] => Lines[ln];
+
+        internal Line[] Lines;
         internal Source(string file) {
             if (!File.Exists(file)) WASM_Main.CRASH($"File '{file}' has not been found!");
             var fpath = qstr.ExtractDir(file).Replace("\\", "/");
@@ -85,6 +103,8 @@ namespace WASM {
                         foreach (Line L in Sub.Lines) src.Add(L);
                     } else if (qstr.Prefixed(srcl[i], ";")) {
                         System.Diagnostics.Debug.WriteLine($"Skipping comment: {srcl[i]}");
+                    } else if (srcl[i]=="") {
+                        System.Diagnostics.Debug.WriteLine($"Skipping whiteline {i+1}");
                     } else {
                         src.Add(new Line(srcl[i], file, i + 1));
                     }

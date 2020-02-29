@@ -67,6 +67,7 @@
       <Link>External Classes\Units\TrickyDbg.cs</Link>
     </Compile>
     <Compile Include="Compile.cs" />
+    <Compile Include="Instruction.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="WASM_Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
