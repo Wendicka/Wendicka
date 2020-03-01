@@ -39,10 +39,131 @@ namespace WASM {
 
         static List<string> IncPath = new List<string>();
 
+        internal enum DataKind { Einde, Instruction, Index, Chunk, Label, GlobalVar, LocalVar, Reference, String, IntValue, FloatValue, Boolean, Null, API }
+
+        internal class Parameter {
+            internal DataKind Kind;
+            internal byte KindByte => (byte)Kind;
+            internal long intvalue;
+            internal StringBuilder StrValue;
+        }
+
         internal class Line {
             StringBuilder Code;
             internal string From_File;
             internal int Line_Number;
+            internal Parameter[] Parameters {
+                get {
+                    var ret = new List<Parameter>();
+                    int pos = 0;
+                    Parameter Par=null;
+                    void Flush() { if (Par != null) ret.Add(Par); Par = null; }
+                    var instring = false;
+                    var escape = false;
+                    while (pos < ParamString.Length) {
+                        char cb = ParamString[pos];
+                        if (Par == null) {
+                            Par = new Parameter();
+                            switch (cb) {
+                                case '@':
+                                    Par.Kind = DataKind.API;
+                                    pos++;
+                                    break;
+                                case '"':
+                                    Par.Kind = DataKind.String;
+                                    instring = true;
+                                    escape = false;
+                                    pos++;
+                                    break;
+                                case '$':
+                                    if (ParamString[pos + 1] == '$') {
+                                        pos++;
+                                        Par.Kind = DataKind.GlobalVar;
+                                    } else { Par.Kind = DataKind.LocalVar; }
+                                    break;
+                                case '&':
+                                    throw new Exception("No support YET for references");
+                                case '0':
+                                case '1':
+                                case '2':
+                                case '3':
+                                case '4':
+                                case '5':
+                                case '6':
+                                case '7':
+                                case '8':
+                                case '9':
+                                    Par.Kind = DataKind.IntValue;
+                                    pos++;
+                                    break;
+                                default:
+                                    if (Instruction == "JMP" || Instruction == "JZ" || Instruction == "JNZ") Par.Kind = DataKind.Label; else Par.Kind = DataKind.Chunk;
+                                    // NO 'pos++' this time! I'm serious!
+                                    break;
+                            }
+                        } else if (instring) {
+                            char b = '0';
+                            if (escape) {
+                                switch (cb) {
+                                    case '\\':
+                                    case '"':
+                                    case 'n':
+                                    case 'r':
+                                    case 't':
+                                    case 'b':
+                                        b = cb;
+                                        pos++;
+                                        break;
+                                    case '0':
+                                    case '1':
+                                    case '2':
+                                    case '3':
+                                    case '4':
+                                    case '5':
+                                    case '6':
+                                    case '7':
+                                    case '8':
+                                    case '9':
+                                        if (ParamString.Length < pos + 3) throw new Exception("Invalid number for escape");
+                                        var s = $"{ParamString[pos + 0]}{ParamString[pos + 1]}{ParamString[pos + 2]}";
+                                        var i = qstr.ToInt(s);
+                                        if (i >= 256) throw new Exception("Too high ASCII");
+                                        b = (char)(byte)i;
+                                        pos += 3;
+                                        break;
+                                    default:
+                                        throw new Exception("Invalid string escape code");
+                                }
+                            } else if (cb == '"') {
+                                instring = false;
+                            }
+                            escape = false;
+                        } else if (cb == ',') {
+                            Flush();
+                        } else if (cb == '#') {
+                            switch (Par.Kind) {
+                                case DataKind.Einde:
+                                case DataKind.Instruction:
+                                    throw new Exception($"Invalid p-block: {Par.Kind}! (Internal error!)");
+                                case DataKind.API:
+                                case DataKind.Chunk:
+                                    throw new Exception("Illegal index request!");
+                            }
+                            Flush();
+                            Par = new Parameter();
+                            Par.Kind = DataKind.Index;
+                            Flush();
+                        } else {
+                            switch (Par.Kind) {
+
+                            }
+                        }
+                    }
+                    if (instring) throw new Exception("Unfinished string!");
+                    Flush();
+                    return ret.ToArray();
+                }
+            }
 
             override public string ToString() => Code.ToString();
             internal string Instruction { get {
