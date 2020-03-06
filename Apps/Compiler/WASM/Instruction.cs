@@ -21,12 +21,12 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.02.29
+// Version: 20.03.01
 // EndLic
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Text;
 using TrickyUnits;
 
@@ -39,20 +39,35 @@ namespace WASM {
             if (!Instructions.ContainsKey(i)) return null;
             return Instructions[i];
         }
-        private static void Set(string i, Instruction d) { Instructions[i.ToUpper()] = d; }
+        private static void Set(string i, Instruction d) { Instructions[i.ToUpper()] = d; Debug.WriteLine($"Registered instruction {d.insnum} as {i}"); }
         internal delegate bool CheckerFunction(Source.Line l);
         internal CheckerFunction Check { get; private set; } = AlwaysRight;
-        readonly int insnum;
+        readonly internal int insnum;
         static bool AlwaysRight(Source.Line L) => true; // Only used when nothing's set
 
-        private Instruction(int i,CheckerFunction chk = null            ) {
+        private Instruction(int i, CheckerFunction chk = null) {
             if (chk != null) Check = chk;
             insnum = i;
+            Debug.WriteLine($"Created instruction #{i}");
         }
 
         internal static void Init() {
             MKL.Lic    ("Wendicka Project - Instruction.cs","GNU General Public License 3");
-            MKL.Version("Wendicka Project - Instruction.cs","20.02.29");
+            MKL.Version("Wendicka Project - Instruction.cs","20.03.01");
+            Set("end", new Instruction(0, delegate (Source.Line l) { return l.Parameters.Length == 0; }));
+            Set("call", new Instruction(1, delegate (Source.Line l) {
+                //var ret = true;
+                var p = l.Parameters;
+                if (p.Length==0) { WASM_Main.VP("\nNothing to call");return false; }
+                System.Diagnostics.Debug.WriteLine($"Checking call! Total parameters {p.Length}");
+                if (p[0].Kind != Source.DataKind.API && p[0].Kind != Source.DataKind.Chunk && p[0].Kind != Source.DataKind.GlobalVar && p[0].Kind != Source.DataKind.LocalVar) { WASM_Main.Error($"Uncallable call: {p[0].Kind}"); return false; }
+                return true;
+            }));
+            Set("invoke", new Instruction(2, Get("call").Check));
+            Set("defer", new Instruction(3, Get("call").Check));
+            Set("resume", new Instruction(4, delegate { throw new Exception("resume after yield not yet implemented"); }));
+            Set("return", new Instruction(5));
+            Set("yield", new Instruction(6));
         }
 
     }

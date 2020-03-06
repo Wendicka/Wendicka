@@ -21,12 +21,13 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.02.29
+// Version: 20.03.01
 // EndLic
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
 using TrickyUnits;
 
 namespace WASM {
@@ -34,7 +35,7 @@ namespace WASM {
 
         static internal void Hello() {
             MKL.Lic    ("Wendicka Project - Source.cs","GNU General Public License 3");
-            MKL.Version("Wendicka Project - Source.cs","20.02.29");
+            MKL.Version("Wendicka Project - Source.cs","20.03.01");
         }
 
         static List<string> IncPath = new List<string>();
@@ -45,7 +46,7 @@ namespace WASM {
             internal DataKind Kind;
             internal byte KindByte => (byte)Kind;
             internal long intvalue;
-            internal StringBuilder StrValue;
+            internal StringBuilder StrValue = new StringBuilder(1);
         }
 
         internal class Line {
@@ -107,11 +108,23 @@ namespace WASM {
                                 switch (cb) {
                                     case '\\':
                                     case '"':
-                                    case 'n':
-                                    case 'r':
-                                    case 't':
-                                    case 'b':
                                         b = cb;
+                                        pos++;
+                                        break;
+                                    case 'n':
+                                        b = '\n';
+                                        pos++;
+                                        break;
+                                    case 'r':
+                                        b = '\r';
+                                        pos++;
+                                        break;
+                                    case 't':
+                                        b = '\t';
+                                        pos++;
+                                        break;
+                                    case 'b':
+                                        b = '\b';
                                         pos++;
                                         break;
                                     case '0':
@@ -136,10 +149,18 @@ namespace WASM {
                                 }
                             } else if (cb == '"') {
                                 instring = false;
+                                Debug.WriteLine($"End of string at {pos}");
+                                pos++;
+                            } else {
+                                b = cb;
+                                pos++;
                             }
+                            if (instring && b > 0) Par.StrValue.Append(b);
                             escape = false;
                         } else if (cb == ',') {
+                            Debug.WriteLine($"Param SPLIT! {pos}");
                             Flush();
+                            pos++;
                         } else if (cb == '#') {
                             switch (Par.Kind) {
                                 case DataKind.Einde:
@@ -154,8 +175,26 @@ namespace WASM {
                             Par.Kind = DataKind.Index;
                             Flush();
                         } else {
+                            Debug.WriteLine($"Appending ot {Par.Kind} / {pos} / {ParamString.Length}");
                             switch (Par.Kind) {
-
+                                case DataKind.API:
+                                case DataKind.Chunk:
+                                case DataKind.GlobalVar:
+                                case DataKind.Label:
+                                case DataKind.LocalVar:
+                                    if (cb >= 'a' && cb <= 'z') cb = (char)((byte)cb - 32);
+                                    var allow = (cb >= 'A' && cb <= 'Z') || cb == '_' || (cb >= '0' && cb <= '9' && Par.StrValue.Length > 0);
+                                    if (!allow) throw new Exception($"Invalid name for {Par.Kind}");
+                                    Par.StrValue.Append(cb);
+                                    pos++;
+                                    break;
+                                case DataKind.FloatValue:
+                                case DataKind.IntValue:
+                                    throw new Exception("Numberic values not yet supported");
+                                case DataKind.String:
+                                    break;
+                                default:
+                                    throw new Exception($"Unknown DataKind: {Par.Kind}");
                             }
                         }
                     }

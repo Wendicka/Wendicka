@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.02.29
+// Version: 20.03.01
 // EndLic
 
 using System;
@@ -34,8 +34,8 @@ namespace WASM {
     internal class Compile {
 
         static internal void Hello() {
-            MKL.Lic("Wendicka Project - Compile.cs", "GNU General Public License 3");
-            MKL.Version("Wendicka Project - Compile.cs", "20.02.29");
+            MKL.Lic    ("Wendicka Project - Compile.cs","GNU General Public License 3");
+            MKL.Version("Wendicka Project - Compile.cs","20.03.01");
         }
 
         static void VP(string m) => WASM_Main.VP(m);
@@ -135,8 +135,15 @@ namespace WASM {
                         }
                     } else if (instr == null) {
                         throw new Exception($"Unknown instruction! \"{L.Instruction}\"!");
+                    } else if (!instr.Check(L)) {
+                        throw new Exception($"Instruction {L.Instruction} does not provide the parameters wanted, or has otherwise bad input!");
+                    } else if (CurrentChunk == null) {
+                        throw new Exception("No chunk!");
                     } else {
-
+                        // If all is good, let's do it!
+                        Debug.WriteLine($"Writing instruction {L.Instruction}/{Instruction.Get(L.Instruction).insnum}");
+                        CurrentChunk.Add((byte)1);
+                        CurrentChunk.Add((byte)Instruction.Get(L.Instruction).insnum);
                     }
                 }
                 for (int p = 0; p < lastspace; p++) WASM_Main.VT(" "); WASM_Main.VT("\r");
