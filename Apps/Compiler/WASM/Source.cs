@@ -151,6 +151,10 @@ namespace WASM {
                                     default:
                                         throw new Exception("Invalid string escape code");
                                 }
+                            } else if (cb=='\\') {
+                                escape = true;
+                                pos++;
+                                continue;
                             } else if (cb == '"') {
                                 instring = false;
                                 Debug.WriteLine($"End of string at {pos}");
@@ -159,7 +163,7 @@ namespace WASM {
                                 b = cb;
                                 pos++;
                             }
-                            if (instring && b > 0) Par.StrValue.Append(b);
+                            if (instring && b > 0 ) Par.StrValue.Append(b);
                             escape = false;
                         } else if (cb == ',') {
                             Debug.WriteLine($"Param SPLIT! {pos}");
