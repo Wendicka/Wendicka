@@ -40,12 +40,16 @@ namespace WASM {
 
         static List<string> IncPath = new List<string>();
 
-        internal enum DataKind { Einde, Instruction, Index, Chunk, Label, GlobalVar, LocalVar, Reference, String, IntValue, FloatValue, Boolean, Null, API }
+        internal enum DataKind { Einde, StartChunk, Instruction, Index, Chunk, Label, GlobalVar, LocalVar, Reference, String, IntValue, FloatValue, Boolean, Null, API }
 
         internal class Parameter {
             internal DataKind Kind;
             internal byte KindByte => (byte)Kind;
-            internal long intvalue;
+            internal long intvalue {
+                get {
+                    throw new Exception("Upcoming feature! Int calculation!");
+                }
+            }
             internal StringBuilder StrValue = new StringBuilder(1);
         }
 
