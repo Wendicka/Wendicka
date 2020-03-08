@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCLI", "QCLI.csproj", "{178137C6-4DC6-4132-AE8F-17FF14E68F53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wendicka_Engine", "..\..\..\..\Class\Wendicka_Engine\Wendicka_Engine\Wendicka_Engine.csproj", "{22A6B792-6788-4F2A-90F5-FB6ABBEAC970}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{178137C6-4DC6-4132-AE8F-17FF14E68F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178137C6-4DC6-4132-AE8F-17FF14E68F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178137C6-4DC6-4132-AE8F-17FF14E68F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178137C6-4DC6-4132-AE8F-17FF14E68F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22A6B792-6788-4F2A-90F5-FB6ABBEAC970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22A6B792-6788-4F2A-90F5-FB6ABBEAC970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22A6B792-6788-4F2A-90F5-FB6ABBEAC970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22A6B792-6788-4F2A-90F5-FB6ABBEAC970}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D706E50D-B8CB-49D7-BCEF-BCA1EE6CC230}
+	EndGlobalSection
+EndGlobal
