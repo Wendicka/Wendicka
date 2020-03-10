@@ -1,15 +1,71 @@
-﻿using System;
+// Lic:
+// QCLI
+// QCLI Wendicka Test
+// 
+// 
+// 
+// (c) Jeroen P. Broks, 
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Please note that some references to data like pictures or audio, do not automatically
+// fall under this licenses. Mostly this is noted in the respective files.
+// 
+// Version: 20.03.09
+// EndLic
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using TrickyUnits;
+using Wendicka_Engine;
 
 
 
 
 namespace QCLI {
     class Program {
+
+        static string MyExe => System.Reflection.Assembly.GetEntryAssembly().Location;
+
+        static Program() {
+            MKL.Lic    ("Wendicka Project - Program.cs","GNU General Public License 3");
+            MKL.Version("Wendicka Project - Program.cs","20.03.09");
+            WRT.Hello();
+            qstr.Hello();
+            QuickStream.Hello();
+            GINI.Hello();
+            FileList.Hello();
+            GINIE.Hello();
+            MKL.AllWidth = 60;
+        }
+
+        static void Head() {
+            Console.WriteLine($"Wendicka Runtime QCLI, version {MKL.Newest}");
+            Console.WriteLine("Coded by Jeroen P. Broks!");
+            Console.WriteLine($"(c) {MKL.CYear(2020)} Jeroen P. Broks\n");
+        }
+
+        static void NoStuff() {
+            Head();
+            Console.WriteLine(MKL.All());
+            Console.WriteLine($"Usage: {qstr.StripAll(MyExe)} <WendickaAppFile> [<parameters>]");
+        }
+
         static void Main(string[] args) {
+            if (args.Length == 0)
+                NoStuff();
+            TrickyDebug.AttachWait();
         }
     }
 }

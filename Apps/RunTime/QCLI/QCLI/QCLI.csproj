@@ -43,6 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\..\TrickyUnits\Dirry.cs">
+      <Link>Tricky%27s Units\Dirry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\FileList.cs">
+      <Link>Tricky%27s Units\FileList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\GINI Is Not Ini.cs">
+      <Link>Tricky%27s Units\GINI Is Not Ini.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\GINIE.cs">
+      <Link>Tricky%27s Units\GINIE.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\qstream.cs">
+      <Link>Tricky%27s Units\qstream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\TrickyDbg.cs">
+      <Link>Tricky%27s Units\TrickyDbg.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

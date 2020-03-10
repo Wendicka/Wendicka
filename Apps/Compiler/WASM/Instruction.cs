@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.03.01
+// Version: 20.03.09
 // EndLic
 
 using System;
@@ -53,7 +53,7 @@ namespace WASM {
 
         internal static void Init() {
             MKL.Lic    ("Wendicka Project - Instruction.cs","GNU General Public License 3");
-            MKL.Version("Wendicka Project - Instruction.cs","20.03.01");
+            MKL.Version("Wendicka Project - Instruction.cs","20.03.09");
             Set("end", new Instruction(0, delegate (Source.Line l) { return l.Parameters.Length == 0; }));
             Set("call", new Instruction(1, delegate (Source.Line l) {
                 //var ret = true;
