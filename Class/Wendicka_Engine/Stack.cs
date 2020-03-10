@@ -1,7 +1,7 @@
 // Lic:
-// Class/Wendicka_Engine/Wendicka_Engine/Stack.cs
-// Wendicka Engine
-// version: 20.03.09
+// Class/Wendicka_Engine/Stack.cs
+// Wendicka - Stacking
+// version: 20.03.10
 // Copyright (C)  Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -32,7 +32,7 @@ namespace Wendicka_Engine {
     class Stack<StackType> {
 
         public static void Hello() {
-            MKL.Version("Wendicka Project - Stack.cs","20.03.09");
+            MKL.Version("Wendicka Project - Stack.cs","20.03.10");
             MKL.Lic    ("Wendicka Project - Stack.cs","ZLib License");
         }
 

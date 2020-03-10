@@ -55,23 +55,32 @@
     <Compile Include="..\..\..\..\..\TrickyUnits\GINIE.cs">
       <Link>Tricky%27s Units\GINIE.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\..\TrickyUnits\qstr.cs">
+      <Link>Tricky%27s Units\qstr.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\..\TrickyUnits\qstream.cs">
       <Link>Tricky%27s Units\qstream.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\..\TrickyUnits\TrickyDbg.cs">
       <Link>Tricky%27s Units\TrickyDbg.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Class\Wendicka_Engine\Chunks and stuff.cs">
+      <Link>Wendicka\Chunks and stuff.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Class\Wendicka_Engine\Stack.cs">
+      <Link>Wendicka\Stack.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Class\Wendicka_Engine\State.cs">
+      <Link>Wendicka\State.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Class\Wendicka_Engine\WRT.cs">
+      <Link>Wendicka\WRT.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Class\Wendicka_Engine\Wendicka_Engine\Wendicka_Engine.csproj">
-      <Project>{22a6b792-6788-4f2a-90f5-fb6abbeac970}</Project>
-      <Name>Wendicka_Engine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

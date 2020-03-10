@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 20.03.09
+// Version: 20.03.10
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace QCLI {
 
         static Program() {
             MKL.Lic    ("Wendicka Project - Program.cs","GNU General Public License 3");
-            MKL.Version("Wendicka Project - Program.cs","20.03.09");
+            MKL.Version("Wendicka Project - Program.cs","20.03.10");
             WRT.Hello();
             qstr.Hello();
             QuickStream.Hello();
