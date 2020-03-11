@@ -25,12 +25,13 @@ namespace Wendicka_Engine {
         #region variable declarations
         static int cnt = 0;
         readonly public string StateName;
-        ChunkMap Chunks = new ChunkMap();
+        ChunkMap Chunks;
         #endregion
 
         #region Init
         void SetUp(byte[] data) {
             cnt++;
+            Chunks = new ChunkMap(this);
         }
 
         public WenState(string nameme,byte[] data) {

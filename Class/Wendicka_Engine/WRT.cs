@@ -22,12 +22,11 @@ using Wendicka_Engine;
 
 namespace Wendicka_Engine {
 
-
-
     public class WRT {
 
         public static void Hello() {
             Stack<object>.Hello();
+            ChunkMap.Hello();
         }
     }
 }
