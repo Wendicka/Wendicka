@@ -1,3 +1,4 @@
+using System.Text;
 using TrickyUnits;
 
 namespace Wendicka_Engine {
@@ -7,7 +8,7 @@ namespace Wendicka_Engine {
         string Destructor = "";
 
         ~Table() {
-            if (Destructor!=) {
+            if (Destructor!="") {
                 throw new System.Exception("Destructors not yet supported!");
             }
         }
@@ -16,7 +17,7 @@ namespace Wendicka_Engine {
     class Variable {
         string Type = "NULL";
         Table TabPointer = null;
-        string StringValue = "";
+        StringBuilder StringValue = new StringBuilder("");
         long intvalue = 0;
         float floatvalue = 0;
     }

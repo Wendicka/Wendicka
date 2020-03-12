@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;QCLI</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -72,6 +72,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Class\Wendicka_Engine\Chunks and stuff.cs">
       <Link>Wendicka\Chunks and stuff.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Class\Wendicka_Engine\Exceptions.cs">
+      <Link>Wendicka\Exceptions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Class\Wendicka_Engine\Stack.cs">
       <Link>Wendicka\Stack.cs</Link>

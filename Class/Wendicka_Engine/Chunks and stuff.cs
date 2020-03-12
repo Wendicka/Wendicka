@@ -26,6 +26,7 @@ namespace Wendicka_Engine {
 
     internal class Chunk {
         readonly ChunkMap Parent;
+        readonly TMap<string, Variable> Locals = new TMap<string, Variable>(); 
         WenState State => Parent.Parent;
         internal Chunk(ChunkMap Parent) { this.Parent = Parent; }
         internal class Instruction {

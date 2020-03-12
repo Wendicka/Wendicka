@@ -25,13 +25,30 @@ namespace Wendicka_Engine {
         #region variable declarations
         static int cnt = 0;
         readonly public string StateName;
+        readonly TMap<string, Variable> Globals = new TMap<string, Variable>();
         ChunkMap Chunks;
         #endregion
 
         #region Init
         void SetUp(byte[] data) {
+            var WBIN = "WBIN";
+            int startoffs=0;
+            byte[] offbytes;
             cnt++;
             Chunks = new ChunkMap(this);
+            if (data.Length < 12) throw new ExWendickaBinTooShort();
+            for(int i = 0; i < 4; i++) {
+                if ((char)data[(data.Length - 12) + i] != WBIN[i]) throw new ExWendickaNotRecognized();
+                if ((char)data[(data.Length - 4) + i] != WBIN[i]) throw new ExWendickaNotRecognized();
+            }
+            offbytes = new byte[4] { data[(data.Length - 8)], data[(data.Length - 7)], data[(data.Length - 6)], data[(data.Length - 5)] };
+            if (!BitConverter.IsLittleEndian) Array.Reverse(offbytes);
+            startoffs = (data.Length-BitConverter.ToInt32(offbytes,0))-4;
+#if QCLI && DEBUG
+            foreach (byte b in offbytes) Console.Write($"{b.ToString("X")}.{b}.{(char)b};\t");
+            Console.WriteLine($"{BitConverter.ToInt32(offbytes, 0)} / {data.Length} / {startoffs}");
+#endif
+            if (startoffs < 0 || startoffs > data.Length - 12) throw new ExWendickaFalseBineryOffset(startoffs);
         }
 
         public WenState(string nameme,byte[] data) {

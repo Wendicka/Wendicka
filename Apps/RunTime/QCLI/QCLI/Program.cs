@@ -63,11 +63,16 @@ namespace QCLI {
         }
 
         static void Run(string[] args) {
-            var Targs = new string[args.Length - 1];
-            var Exe = Dirry.AD(args[0]);
-            for (int i = 1; i < args.Length; ++i) Targs[i - 1] = args[i];
-            Debug.WriteLine($"Loading: {Exe}");
-            var State = new WenState($"QCLI: {Exe}", Exe);
+            try {
+                var Targs = new string[args.Length - 1];
+                var Exe = Dirry.AD(args[0]);
+                for (int i = 1; i < args.Length; ++i) Targs[i - 1] = args[i];
+                Debug.WriteLine($"Loading: {Exe}");
+                var State = new WenState($"QCLI: {Exe}", Exe);
+            } catch (Exception E) {
+               Console.WriteLine("ERROR");
+               Console.WriteLine(E.Message);
+            }
         }
 
         static void Main(string[] args) {
