@@ -151,7 +151,7 @@ namespace WASM {
                     } else {
                         // If all is good, let's do it!
                         Debug.WriteLine($"Writing instruction {L.Instruction}/{Instruction.Get(L.Instruction).insnum}");
-                        CurrentChunk.Add((byte)1);
+                        CurrentChunk.Add((byte)2);
                         CurrentChunk.Add((byte)Instruction.Get(L.Instruction).insnum);
                         foreach(Source.Parameter p in L.Parameters) {
                             switch (p.Kind) {

@@ -29,6 +29,14 @@ namespace Wendicka_Engine {
         ChunkMap Chunks;
         #endregion
 
+        #region debug
+        void Chat(params string[] m) {
+#if QCLI && DEBUG
+            foreach (string M in m) Console.WriteLine($"QCLI.DEBUG.CHAT: {M}");
+#endif
+        }
+        #endregion
+
         #region Init
         void SetUp(byte[] data) {
             var WBIN = "WBIN";
@@ -49,6 +57,57 @@ namespace Wendicka_Engine {
             Console.WriteLine($"{BitConverter.ToInt32(offbytes, 0)} / {data.Length} / {startoffs}");
 #endif
             if (startoffs < 0 || startoffs > data.Length - 12) throw new ExWendickaFalseBineryOffset(startoffs);
+            var bt = QuickStream.StreamFromBytes(data);
+            do { } while (bt.ReadByte() != 26);
+            //var bitMain = bt.ReadByte();
+            //var bitInst = bt.ReadByte();
+            //if (bitMain != 1 || bitInst != 1) throw new ExWendickaNotYetSupported($"Tagging other than 8 bit ({bitMain}/{bitInst})");
+            Chunk CChunk;
+            string ChunkName="";
+            long ChunkStart;
+            long ChunkPos() => bt.Position - ChunkStart;
+            long ChunkLength;
+            long ChunkEnd;
+            void ChunkCheck(Chunk.Instruction.Param.DataKind i) { if (CChunk == null || ChunkName == "") throw new ExWendickaChunkless($"{i}", bt.Position); }
+            Chunk.Instruction.Param.DataKind GetTag() => (Chunk.Instruction.Param.DataKind)bt.ReadByte();
+            do {
+                var tag = GetTag();
+                Chat($"MainTag: {tag} / {(byte)tag}");
+                switch (tag) {
+                    case Chunk.Instruction.Param.DataKind.Einde:
+                        goto escape;
+                    case Chunk.Instruction.Param.DataKind.StartChunk: {
+                            byte ChuTag = bt.ReadByte();
+                            while (ChuTag != 0) {
+                                Chat($"NEWCHUNK.TAG: {ChuTag}");
+                                switch (ChuTag) {
+                                    case 0:
+                                        break; // Should never happen!
+                                    case 1:
+                                        ChunkName = bt.ReadString().ToUpper();
+                                        Chat($"NEWCHUNK: {ChunkName}");
+                                        CChunk = Chunks[ChunkName];
+                                        break;
+                                    case 2:
+                                        ChunkStart = bt.Position;
+                                        ChunkLength = (long)bt.ReadInt();
+                                        ChunkEnd = ChunkStart + ChunkLength;                                        
+                                        if (ChunkStart < 0 || ChunkEnd > bt.Size) throw new ExWendickaIllegalChunkSize(ChunkName, ChunkStart, ChunkLength, ChunkEnd);
+                                        break;
+                                }
+                                ChuTag = bt.ReadByte();
+                            }
+                        }
+                        var bitMain = bt.ReadByte();
+                        var bitInst = bt.ReadByte();
+                        if (bitMain != 8 || bitInst != 8) throw new ExWendickaNotYetSupported($"Tagging other than 8 bit ({bitMain}/{bitInst})");
+                        break;
+                    default:
+                        throw new ExWendickaNotYetSupported($"Main tag {tag}({(byte)tag})");
+                }
+            } while (true);
+            escape:
+            bt.Close();
         }
 
         public WenState(string nameme,byte[] data) {
